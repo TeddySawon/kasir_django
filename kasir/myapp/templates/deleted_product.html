@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Product{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-8">
+    <h1 class="text-2xl font-bold mb-4">Delete Product</h1>
+    <p>Are you sure you want to delete {{ barang.namabarang }}?</p>
+    <form method="POST">
+    {% csrf_token %}
+    <div class="flex flex-col mt-4">
+        <a href="{% url 'product' %}" class="text-center mb-4 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700">Cancel</a>
+        <input type="submit" value="Delete" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700">
+    </div>
+</form>
+</div>
+{% endblock %}
+

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home - DropThisBR{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Welcome Section -->
+        <div class="md:col-span-1">
+            <h1 class="text-4xl font-bold text-green-600 mb-4">Welcome to DropThisBR</h1>
+            <p class="text-gray-700 mb-4">
+                Tingkatkan Efisiensi dan Penjualan Bisnis Anda dengan Kasir Online yang Mudah Digunakan dan Aman.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Lupakan sistem kasir tradisional yang rumit dan mahal. Kasir online kami dirancang untuk membantu Anda mengelola bisnis dengan lebih mudah dan efektif.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Dapatkan fitur lengkap untuk mengelola transaksi, stok, dan pelanggan dengan mudah. Kasir online kami memiliki semua fitur yang Anda perlukan untuk menjalankan bisnis Anda dengan lancar.
+            </p>
+            <a href="#" class="inline-block mt-4 bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">
+                Learn More
+            </a>
+        </div>
+        <!-- Image Section -->
+        <div class="md:col-span-1 flex justify-center">
+            <img src="{% static 'img/Logo1.png' %}" alt="DropThisBR Logo" class="rounded-lg shadow-md">
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="container mx-auto mt-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="md:col-span-1">
+            <h2 class="text-3xl font-bold text-green-600 mb-4">Kelola Bisnis Anda dengan Mudah</h2>
+            <p class="text-gray-700 font-bold mb-4">
+                Tingkatkan efisiensi dan penjualan bisnis Anda dengan kasir online yang mudah digunakan dan aman. Dapatkan fitur lengkap untuk:
+            </p>
+            <ul class="list-disc list-inside text-gray-700">
+                <li>Mengelola transaksi: Buat transaksi dengan cepat dan mudah, termasuk penjualan, pengembalian, dan diskon.</li>
+                <li>Memantau stok: Pantau stok barang Anda secara real-time dan hindari kehabisan stok.</li>
+                <li>Mengelola pelanggan: Kelola data pelanggan Anda dengan mudah dan ciptakan hubungan yang lebih baik dengan mereka.</li>
+                <li>Melacak penjualan: Dapatkan laporan penjualan yang komprehensif untuk membantu Anda membuat keputusan bisnis yang lebih baik.</li>
+                <li>Menerima pembayaran online: Terimalah pembayaran online dengan aman dan mudah dari berbagai metode pembayaran.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action Section -->
+<div class="container mx-auto mt-16 text-center">
+    <h3 class="text-2xl font-bold text-green-600 mb-4">Daftar sekarang dan dapatkan uji coba gratis!</h3>
+    <a href="#" class="inline-block bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">
+        Sign Up Now
+    </a>
+</div>
+
+<!-- Contact Section -->
+<div class="container mx-auto mt-16 text-center">
+    <h4 class="text-xl font-bold text-green-600 mb-4">Mulai tingkatkan bisnis Anda hari ini dengan kasir online kami!</h4>
+    <h4 class="text-xl font-bold text-green-600 mb-4">Hubungi kami sekarang untuk informasi lebih lanjut.</h4>
+    <a href="#" class="inline-block bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">
+        Contact Us
+    </a>
+</div>
+{% endblock %}

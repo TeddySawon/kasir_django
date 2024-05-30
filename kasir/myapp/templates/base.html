@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% load static %} 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'img/Logo1.png' %}" sizes="32x32">
+    <title>DropThisBR</title>
+    <!-- Tambahkan link CSS Tailwind -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+	<!-- Tambahkan link CSS DataTables -->
+    <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-green-300 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div>
+                <a href="/home" class="text-white font-bold text-lg">DropThisBR</a>
+            </div>
+            <div>
+                <a href="{% url 'home' %}" class="text-white hover:underline">Home</a>
+                <a href="{% url 'kasir' %}" class="text-white hover:underline ml-4">Cashier</a>
+                <a href="{% url 'product' %}" class="text-white hover:underline ml-4">Product</a>
+            </div>
+        </div>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+	<!-- Footer -->
+    <footer class="bg-gray-900 text-white py-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 MyWebsite. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Tambahkan script JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

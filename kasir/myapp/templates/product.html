@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Products - My Website{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-8">
+    <div class="flex flex-row justify-between items-center">
+        <h1 class="text-2xl font-bold mb-4">Data Produk</h1>
+        <nav class="p-4">
+            <div class="text-right">
+                <a href="{% url 'tambah_barang' %}" id="tambah-produk" class="inline-flex items-center px-4 py-2 bg-green-600 text-white font-bold rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    Tambah Produk
+                </a>
+            </div>
+        </nav>
+    </div>
+    <table id="tabelhome" class="min-w-full">
+        <thead>
+            <tr>
+                <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
+                <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Deskripsi</th>
+                <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Harga</th>
+                <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Info</th>
+                <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stok</th>
+                <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            {% for barang in barangs %}
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap">{{ barang.namabarang }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ barang.deskripsi }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">Rp.{{ barang.hargajual }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ barang.info }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{ barang.stok }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <a href="{% url 'edit_product' barang.id %}" class="text-blue-500 hover:underline">Edit</a>
+                    <form action="{% url 'delete_product' barang.id %}" method="POST" class="inline-block">
+                        {% csrf_token %}
+                        <button type="submit" class="text-red-500 hover:underline ml-2">Hapus</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        $('#tabelhome').DataTable();
+    });
+</script>
+{% endblock %}

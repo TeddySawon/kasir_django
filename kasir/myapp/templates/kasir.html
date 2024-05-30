@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}Kasir{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-10">
+    <div class="bg-white shadow-md rounded-lg p-8">
+        <h1 class="text-3xl font-bold mb-6 text-gray-800 text-center">Kasir</h1>
+        <table id="barangTable" class="display w-full">
+            <thead>
+                <tr>
+                    <th>Nama Barang</th>
+                    <th>Deskripsi</th>
+                    <th>Harga Jual</th>
+                    <th>Stok</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for barang in barangs %}
+                <tr>
+                    <td>{{ barang.namabarang }}</td>
+                    <td>{{ barang.deskripsi }}</td>
+                    <td>{{ barang.hargajual }}</td>
+                    <td>{{ barang.stok }}</td>
+                    <td>
+                        <button class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 add-to-cart" 
+                                data-id="{{ barang.id }}" data-nama="{{ barang.namabarang }}" 
+                                data-harga="{{ barang.hargajual }}" data-stok="{{ barang.stok }}">
+                            Add to Cart
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Cart -->
+<div class="container mx-auto mt-10">
+    <div class="bg-white shadow-md rounded-lg p-8">
+        <h2 class="text-2xl font-bold mb-4 text-gray-800">Cart</h2>
+        <table id="cartTable" class="display w-full">
+            <thead>
+                <tr>
+                    <th>Nama Barang</th>
+                    <th>Harga</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dynamic Content Here -->
+            </tbody>
+        </table>
+        <div class="mt-4 text-right">
+            <span class="text-xl font-bold">Total: </span><span id="cartTotal" class="text-xl font-bold">0</span>
+            <button id="checkoutButton" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 ml-4">Checkout</button>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    $('#barangTable').DataTable();
+
+    var cart = [];
+
+    function updateCart() {
+        var cartTableBody = $('#cartTable tbody');
+        cartTableBody.empty();
+        var total = 0;
+
+        cart.forEach(function(item, index) {
+            var itemTotal = item.harga * item.quantity;
+            total += itemTotal;
+            cartTableBody.append(
+                `<tr>
+                    <td>${item.nama}</td>
+                    <td>${item.harga}</td>
+                    <td>
+                        <input type="number" min="1" max="${item.stok}" value="${item.quantity}" class="quantity-input" data-index="${index}" />
+                    </td>
+                    <td>${itemTotal}</td>
+                    <td>
+                        <button class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-700 remove-from-cart" data-index="${index}">
+                            Remove
+                        </button>
+                    </td>
+                </tr>`
+            );
+        });
+
+        $('#cartTotal').text(total);
+    }
+
+    $('.add-to-cart').on('click', function() {
+        var id = $(this).data('id');
+        var nama = $(this).data('nama');
+        var harga = $(this).data('harga');
+        var stok = $(this).data('stok');
+        var existingItem = cart.find(item => item.id === id);
+
+        if (existingItem) {
+            if (existingItem.quantity < stok) {
+                existingItem.quantity += 1;
+            } else {
+                alert("Quantity exceeds available stock!");
+            }
+        } else {
+            cart.push({ id: id, nama: nama, harga: harga, quantity: 1, stok: stok });
+        }
+
+        updateCart();
+    });
+
+    $('#cartTable').on('click', '.remove-from-cart', function() {
+        var index = $(this).data('index');
+        cart.splice(index, 1);
+        updateCart();
+    });
+
+    $('#cartTable').on('change', '.quantity-input', function() {
+        var index = $(this).data('index');
+        var newQuantity = parseInt($(this).val());
+        var item = cart[index];
+
+        if (newQuantity > item.stok) {
+            alert("Quantity exceeds available stock!");
+            $(this).val(item.stok);
+        } else {
+            item.quantity = newQuantity;
+        }
+
+        updateCart();
+    });
+
+    $('#checkoutButton').on('click', function() {
+        var cartData = cart.map(item => `${item.id},${item.quantity}`);
+
+        $.ajax({
+            url: '{% url "checkout" %}',
+            method: 'POST',
+            data: {
+                cart: cartData,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    alert('Checkout successful!');
+                    cart = [];
+                    updateCart();
+                    location.reload();
+                } else {
+                    alert('Checkout failed!');
+                }
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
+{% endblock %}
